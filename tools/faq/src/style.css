@@ -1,0 +1,29 @@
+body {
+  font-size: 16px;
+}
+
+input,
+textarea {
+  font-size: 16px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: solid 1px #9a9a9a;
+  width: 480px;
+  max-width: 100%:
+}
+
+textarea {
+  resize: vertical;
+}
+
+button {
+  display: block;
+  margin: 0 auto;
+  background: rgb(190, 17, 22);
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
