@@ -7,20 +7,20 @@
   const questions = ref([]);
 
   const addQuestion = (question, answer) => {
-    questions.value.push({
-      question,
-      answer
-    })
+    if (question && answer)
+      questions.value.push({
+        question,
+        answer
+      })
   }
 
 </script>
 
 <template>
-  <Form @add-question="addQuestion"/>
-
-
-  <Faq1 :questions="questions"/>
-  
+  <div class="page-layout">
+    <Form @add-question="addQuestion"/>
+    <Faq1 :num="1" :questions="questions"/>
+  </div>
 </template>
 
 <style scoped>
