@@ -12,8 +12,6 @@
   const isOpened = ref(false)
   const answerStyle = reactive({
     height: 0,
-    paddingTop: 0,
-    paddingBottom: 0
   })
 
   const answerEl = useTemplateRef('answerEl')
@@ -26,13 +24,10 @@
     } else {
         answerStyle.height = 0
     }
-
-    console.log(answerStyle)
   }
 
   onMounted(() => {
     initialHeight = answerEl.value.scrollHeight
-    console.log(initialHeight)
   })
   
 
@@ -40,7 +35,7 @@
 
 
 <template>
-  <div class="question">
+  <div class="question" :class="{opened: isOpened}">
     <div class="question__title" @click="toggleOpened()"> {{ props.question }} </div>
     <div class="question__answer" ref="answerEl" :style="answerStyle">
       <div class="question__answer-text">{{ props.answer }}</div>
@@ -70,6 +65,32 @@
       font-weight: 700;
       color: #45494e;
       transition: background-color 0.2s;
+    
+
+      &::after {
+        content: '\002B';
+        display: flex;
+        flex: none;
+        width: 40px;
+        height: 40px;
+        align-items: center;
+        justify-content: center;
+        background-color: #e76e76;
+        border-radius: 50px;
+        font-size: 24px;
+        font-weight: 400;
+        color: #fff;
+        transition: 0.2s ease-in-out;
+        transition-property: color, background-color;
+      }
+    }
+
+    
+    &.opened {
+
+      .question__title::after {
+          content: '\2212';
+      }
     
     }
 
