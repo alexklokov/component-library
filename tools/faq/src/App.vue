@@ -38,7 +38,6 @@ document.addEventListener('DOMContentLoaded', _ => {
 
     .forEach((q, _, questions) => {
 
-
       q.title.addEventListener('click', _ => {
 
         const wasOpened = q.isOpened

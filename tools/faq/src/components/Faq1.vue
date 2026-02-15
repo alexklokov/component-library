@@ -28,16 +28,16 @@
 
     const questions = props.questions.length > 0 ? props.questions : [{question: "Вопрос", answer: "Ответ"}]
     const questionsHtml = questions.map(q => {
-      return `<div class="question">
-    <div class="question__title">${q.question}</div>
-      <div class="question__answer" style="height: 0px; padding-top: 0px; padding-bottom: 0px;">
-        <div class="question__answer-text">${q.answer}</div>
+      return `<div class="question" itemscope itemprop="mainEntiry" itemtype="https://schema.org/Question">
+    <div class="question__title" itemprop="name">${q.question}</div>
+      <div class="question__answer" style="height: 0px; padding-top: 0px; padding-bottom: 0px;" itemprop="acceptedAnswer" itemscope itemtype="https://schema.org/Answer">
+        <div class="question__answer-text" itemprop="text">${q.answer}</div>
       </div>
     </div>`
     }).join('\n')
 
     return `
-<div class="questions">
+<div class="questions" itemscope itemtype="https://schema.org/FAQPage">
   ${questionsHtml}
 </div>
     `
