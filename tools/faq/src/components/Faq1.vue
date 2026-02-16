@@ -8,9 +8,11 @@
   import Prism from 'vue-prism-component'
   import 'prismjs/components/prism-markup-templating'
   import 'prismjs/components/prism-php'
+  import { objectToCss } from '../../../../internal/utils/css.js'
   
 
   const props = defineProps({
+    className: String,
     questions: {
       type: Array,
       default: []
@@ -28,16 +30,16 @@
 
     const questions = props.questions.length > 0 ? props.questions : [{question: "Вопрос", answer: "Ответ"}]
     const questionsHtml = questions.map(q => {
-      return `<div class="question" itemscope itemprop="mainEntiry" itemtype="https://schema.org/Question">
-    <div class="question__title" itemprop="name">${q.question}</div>
-      <div class="question__answer" style="height: 0px; padding-top: 0px; padding-bottom: 0px;" itemprop="acceptedAnswer" itemscope itemtype="https://schema.org/Answer">
-        <div class="question__answer-text" itemprop="text">${q.answer}</div>
+      return `<div class="${props.className}" itemscope itemprop="mainEntiry" itemtype="https://schema.org/Question">
+    <div class="${props.className}__title" itemprop="name">${q.question}</div>
+      <div class="${props.className}__answer" style="height: 0px; padding-top: 0px; padding-bottom: 0px;" itemprop="acceptedAnswer" itemscope itemtype="https://schema.org/Answer">
+        <div class="${props.className}__answer-text" itemprop="text">${q.answer}</div>
       </div>
     </div>`
     }).join('\n')
 
     return `
-<div class="questions" itemscope itemtype="https://schema.org/FAQPage">
+<div class="${props.className}-items" itemscope itemtype="https://schema.org/FAQPage">
   ${questionsHtml}
 </div>
     `
@@ -56,7 +58,7 @@
   <Tabs :headers="tabHeaders">
 
     <template #tab-0>
-      <div class="questions">
+      <div class="question-items">
         <FaqItem v-if="questions.length > 0" v-for="q in questions" :question="q.question" :answer="q.answer"/>
         <FaqItem v-else :question="'Вопрос'" :answer="'Ответ'" />
       </div>
@@ -79,7 +81,7 @@
     <template #tab-3>
       <Copy :text="props.langConfig.css" />
       <Prism language="css">
-        {{ props.langConfig.css }}
+        {{ objectToCss(props.langConfig.css) }}
       </Prism>
     </template>
 
@@ -96,7 +98,7 @@
 
 
 <style scoped>
-  .questions {
+  .question-items {
     display: flex;
     flex-direction: column;
     gap: 20px;
