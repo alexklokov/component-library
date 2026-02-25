@@ -1,6 +1,10 @@
 <script lang="ts">
   import type { Component } from "svelte";
-  import Faq1 from "../../components/faq_1/Faq.svelte";
+  import Faq1 from "../../components/faq/faq_1/Faq.svelte";
+  import Faq2 from "../../components/faq/faq_2/Faq.svelte";
+  import Faq3 from "../../components/faq/faq_3/Faq.svelte";
+  import Faq4 from "../../components/faq/faq_4/Faq.svelte";
+
   import Sidebar from "../../components/sidebar/Sidebar.svelte";
   import { type Question } from "../../interfaces/Faq";
 
@@ -17,7 +21,7 @@
   });
 
   let componentsQuestions = $state([]);
-  const components = [Faq1, Faq1];
+  const components = [Faq1, Faq2, Faq3, Faq4];
 </script>
 
 <div class="container">

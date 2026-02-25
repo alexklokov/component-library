@@ -1,8 +1,8 @@
 <script lang="ts">
   import FaqItem from "./FaqItem.svelte";
-  import EditButton from "../editButton/EditButton.svelte";
-  import Form from "../../pages/faq/Form.svelte";
-  import { type FaqComponentProps } from "../../interfaces/Faq";
+  import EditButton from "../../editButton/EditButton.svelte";
+  import Form from "../../../pages/faq/Form.svelte";
+  import { type FaqComponentProps } from "../../../interfaces/Faq";
 
   let { onEdit, questions }: FaqComponentProps = $props();
 </script>
