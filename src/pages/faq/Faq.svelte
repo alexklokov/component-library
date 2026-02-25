@@ -2,6 +2,7 @@
   import type { Component } from "svelte";
   import Faq1 from "../../components/faq_1/Faq.svelte";
   import Sidebar from "../../components/sidebar/Sidebar.svelte";
+  import { type Question } from "../../interfaces/Faq";
 
   interface State {
     EditForm: Component | null;
@@ -16,7 +17,7 @@
   });
 
   let componentsQuestions = $state([]);
-  const components = [Faq1];
+  const components = [Faq1, Faq1];
 </script>
 
 <div class="container">
@@ -26,15 +27,17 @@
       showSidebar = state;
     }}
   >
-    {#if EditForm}
-      <EditForm
-        questions={componentsQuestions[componentIdx]}
-        onSave={(data: any) => {
-          componentsQuestions[componentIdx] = data;
-          componentIdx = -1;
-          showSidebar = false;
-        }}
-      />
+    {#if EditForm && componentIdx !== -1}
+      {#key componentIdx}
+        <EditForm
+          initQuestions={componentsQuestions[componentIdx]}
+          onSave={(questions: Question[]) => {
+            componentsQuestions[componentIdx] = questions;
+            componentIdx = -1;
+            showSidebar = false;
+          }}
+        />
+      {/key}
     {:else}
       No form
     {/if}
@@ -43,9 +46,9 @@
   {#each components as ComponentItem, i}
     <div class="section">
       <ComponentItem
-        data={componentsQuestions[i]}
-        onGetLangConfig={() => {}}
+        questions={componentsQuestions[i]}
         onEdit={(form: Component) => {
+          console.log(form, i, componentsQuestions[i]);
           EditForm = form;
           showSidebar = true;
           componentIdx = i;

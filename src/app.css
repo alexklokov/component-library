@@ -121,3 +121,7 @@ body {
 .flex-row-reverse {
   flex-direction: row-reverse;
 }
+
+.section {
+  margin: 60px 0;
+}
