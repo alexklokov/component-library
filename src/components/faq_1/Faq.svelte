@@ -1,28 +1,10 @@
 <script lang="ts">
-  import type { Component } from "svelte";
   import FaqItem from "./FaqItem.svelte";
   import EditButton from "../editButton/EditButton.svelte";
-  import Form from "./Form.svelte";
-  import type { Question } from "../../interfaces/Faq";
-  import { newQuestion } from "../../interfaces/Faq";
+  import Form from "../../pages/faq/Form.svelte";
+  import { type FaqComponentProps } from "../../interfaces/Faq";
 
-  interface Props {
-    data?: {
-      questions: Question[];
-    };
-    onGetLangConfig: ([LangConfig]) => void;
-    onEdit: (arg0: Component) => void;
-  }
-
-  interface LangConfig {
-    langName: string;
-    langContent: string;
-  }
-
-  let {
-    onEdit,
-    data = { questions: [newQuestion("Вопрос1", "Ответ1")] },
-  }: Props = $props();
+  let { onEdit, questions }: FaqComponentProps = $props();
 </script>
 
 <EditButton
@@ -31,9 +13,13 @@
   }}
 />
 <div class="faq">
-  {#each data.questions as q}
-    <FaqItem title={q.question} text={q.answer} />
-  {/each}
+  {#if questions && questions.length > 0}
+    {#each questions as q}
+      <FaqItem title={q.question} text={q.answer} />
+    {/each}
+  {:else}
+    <FaqItem title="Вопрос" text="Ответ" />
+  {/if}
 </div>
 
 <style scoped lang="scss">

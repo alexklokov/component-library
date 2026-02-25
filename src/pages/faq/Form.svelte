@@ -1,8 +1,10 @@
 <script lang="ts">
+  import { onMount } from "svelte";
   import { newQuestion } from "../../interfaces/Faq";
   import { type Question } from "../../interfaces/Faq";
 
   interface Props {
+    initQuestions?: Question[];
     onSave?: (data: any) => void;
   }
 
@@ -19,7 +21,7 @@
     editQuestionIndex?: number;
   }
 
-  let { onSave }: Props = $props();
+  let { initQuestions = [], onSave }: Props = $props();
 
   let { questions, question, answer, editState, editQuestionIndex }: State =
     $state({
@@ -29,6 +31,11 @@
       editState: EDIT_STATES.ADDING,
       editQuestionIndex: -1,
     });
+
+  onMount(() => {
+    console.log(initQuestions);
+    questions = initQuestions;
+  });
 
   const addQuestion = () => {
     if (question.trim() === "" || answer.trim() === "") {
@@ -85,7 +92,7 @@
     <div
       class="button button--success"
       onclick={() => {
-        onSave?.({ questions });
+        onSave?.(questions);
       }}
     >
       Сохранить
