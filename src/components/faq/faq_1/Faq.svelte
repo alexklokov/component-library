@@ -6,7 +6,12 @@
   import { html } from "./html";
   import { onMount } from "svelte";
 
-  let { questions, onInit }: FaqComponentProps = $props();
+  let {
+    questions,
+    onInit,
+    header = "Заголовок",
+    tag = "h2",
+  }: FaqComponentProps = $props();
 
   onMount(() => {
     onInit({
@@ -18,6 +23,7 @@
 </script>
 
 <div class="faq">
+  <svelte:element this={tag} class="faq__header">{header}</svelte:element>
   {#if questions && questions.length > 0}
     {#each questions as q}
       <FaqItem title={q.question} text={q.answer} />
@@ -33,5 +39,11 @@
     flex-direction: column;
     gap: 20px;
     position: relative;
+
+    &__header {
+      font-size: 32px;
+      margin-bottom: 0;
+      margin-top: 0;
+    }
   }
 </style>

@@ -1,8 +1,9 @@
 import { type Question } from '../../../interfaces/Faq'
 
-export const html = (className: string, questions: Question[]): string => {
+export const html = (className: string, header: string, headerTag: string, questions: Question[]): string => {
 
-  let result = `<div class="${className}-items" itemscope itemtype="https://schema.org/FAQPage">`
+  let result = `<div class="${className}-items" itemscope itemtype="https://schema.org/FAQPage">
+  <${headerTag} class="${className}__header">${header}</${headerTag}>`
 
   const items = questions.map(question => {
     return `

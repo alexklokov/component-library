@@ -20,6 +20,14 @@ body {
   box-sizing: border-box;
 }
 
+h1 {
+  font-size: 48px;
+}
+
+a {
+  text-decoration: none;
+}
+
 .form-group {
   display: flex;
   flex-direction: column;
@@ -48,7 +56,10 @@ body {
   cursor: pointer;
   text-align: center;
   transition-duration: .3s;
+  text-decoration: none;
+  color: #000;
 }
+
 
 .button--success {
   background: #4caf50;

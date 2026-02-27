@@ -5,7 +5,7 @@
 
   const router = {
     index: Index,
-    "tools/faq": Faq,
+    faq: Faq,
   };
 </script>
 
