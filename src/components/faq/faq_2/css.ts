@@ -6,10 +6,27 @@ export const css = (className: string): string => `
     gap: 20px;
   }
 
+  .${className}__header {
+    font-size: 32px;
+    margin-bottom: 30px;
+    margin-top: 0;
+  }
+
+  .${className}__cols {
+    column-count: 2;
+    column-gap: 20px;
+    margin-top: -20px;
+  }
+
   .${className} {
     border-radius: 20px;
     border: solid 1px #e9e9e9;
     overflow: hidden;
+    height: max-content;
+    margin-top: 20px;
+    break-inside: avoid;
+    display: inline-block;
+    width: 100%;
   }
 
   .${className}__title {

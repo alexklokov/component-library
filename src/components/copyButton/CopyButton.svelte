@@ -1,0 +1,99 @@
+<script lang="ts">
+  type Props = {
+    text: string;
+  };
+  let { text }: Props = $props();
+
+  const COPY_STATES = { PENDING: 0, SUCCESS: 1, FAIL: 2 };
+
+  let copyState = $state(COPY_STATES.PENDING);
+
+  const copy = () => {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text);
+      copyState = COPY_STATES.SUCCESS;
+    } else {
+      const textarea = document.createElement("textarea");
+      textarea.value = text;
+
+      textarea.style.display = "none";
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+      try {
+        const res = document.execCommand("copy");
+        if (res) {
+          copyState = COPY_STATES.SUCCESS;
+        } else {
+          copyState = COPY_STATES.FAIL;
+        }
+      } catch {
+        console.log("Failed to copy");
+        copyState = COPY_STATES.FAIL;
+      }
+    }
+
+    setTimeout(() => {
+      copyState = COPY_STATES.PENDING;
+    }, 1000);
+  };
+</script>
+
+<button onclick={copy} aria-label="Copy">
+  {#if copyState === COPY_STATES.PENDING}
+    <svg
+      fill="#000000"
+      height="200px"
+      width="200px"
+      version="1.1"
+      id="Layer_1"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      viewBox="0 0 460 460"
+      xml:space="preserve"
+    >
+      <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+      <g
+        id="SVGRepo_tracerCarrier"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      ></g>
+      <g id="SVGRepo_iconCarrier">
+        <g>
+          <g>
+            <g>
+              <path
+                d="M425.934,0H171.662c-18.122,0-32.864,14.743-32.864,32.864v77.134h30V32.864c0-1.579,1.285-2.864,2.864-2.864h254.272 c1.579,0,2.864,1.285,2.864,2.864v254.272c0,1.58-1.285,2.865-2.864,2.865h-74.729v30h74.729 c18.121,0,32.864-14.743,32.864-32.865V32.864C458.797,14.743,444.055,0,425.934,0z"
+              ></path>
+              <path
+                d="M288.339,139.998H34.068c-18.122,0-32.865,14.743-32.865,32.865v254.272C1.204,445.257,15.946,460,34.068,460h254.272 c18.122,0,32.865-14.743,32.865-32.864V172.863C321.206,154.741,306.461,139.998,288.339,139.998z M288.341,430H34.068 c-1.58,0-2.865-1.285-2.865-2.864V172.863c0-1.58,1.285-2.865,2.865-2.865h254.272c1.58,0,2.865,1.285,2.865,2.865v254.273h0.001 C291.206,428.715,289.92,430,288.341,430z"
+              ></path>
+            </g>
+          </g>
+        </g>
+      </g>
+    </svg>
+  {:else if copyState === COPY_STATES.SUCCESS}
+    Скопировано
+  {:else}
+    Ошибка
+  {/if}
+</button>
+
+<style lang="scss">
+  button {
+    background: transparent;
+    border: none;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+</style>

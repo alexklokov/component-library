@@ -14,6 +14,7 @@
   }: FaqComponentProps = $props();
 
   onMount(() => {
+    console.log(header);
     onInit({
       css,
       js,
@@ -23,7 +24,9 @@
 </script>
 
 <div class="faq">
-  <svelte:element this={tag} class="faq__header">{header}</svelte:element>
+  <svelte:element this={String(tag)} class="faq__header"
+    >{header}</svelte:element
+  >
   {#if questions && questions.length > 0}
     {#each questions as q}
       <FaqItem title={q.question} text={q.answer} />

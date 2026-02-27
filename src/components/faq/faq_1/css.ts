@@ -6,6 +6,12 @@ export const css = (className: string): string => `
     gap: 20px;
   }
 
+  .${className}__header {
+    font-size: 32px;
+    margin-bottom: 30px;
+    margin-top: 0;
+  }
+
   .${className} {
     border-radius: 20px;
     border: solid 1px #e9e9e9;

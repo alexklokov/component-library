@@ -16,25 +16,26 @@
     type Question,
   } from "../../interfaces/Faq";
   import Form from "./Form.svelte";
+  import CopyButton from "../../components/copyButton/CopyButton.svelte";
 
   let questions = $state<Question[]>([{ question: "Вопрос", answer: "Ответ" }]);
   let className = $state<string>("faq");
   let generators = $state<LangGenerator[]>([]);
-  let header = $state<string>("");
+  let faqHeader = $state<string>("Вопросы и ответы");
   let headerTag = $state<HeaderTag>("h2");
 
   const components = [
     {
       component: Faq1,
-      header: "Вопросы и ответы",
+      label: "Вопросы и ответы",
     },
     {
       component: Faq2,
-      header: "Вопросы и ответы (две колонки)",
+      label: "Вопросы и ответы (две колонки)",
     },
     {
       component: Faq3,
-      header: "Вопросы и ответы (заголовок сбоку)",
+      label: "Вопросы и ответы (заголовок сбоку)",
     },
   ];
 
@@ -57,7 +58,7 @@
   <a href="/">Главная</a>
   <div class="form-container">
     <div class="form-group">
-      <input type="text" placeholder="Заголовок" bind:value={header} />
+      <input type="text" placeholder="Заголовок" bind:value={faqHeader} />
       <select placeholder="Тег заголовка" bind:value={headerTag}>
         {#each HeaderTags as tag}
           <option value={tag}>{tag}</option>
@@ -74,11 +75,12 @@
   <div class="flex flex-column g-40">
     {#each components as component, i}
       <div class="section">
+        <h2>{component.label}</h2>
         <Tabs>
           <Tab title="Внешний вид">
             <component.component
               {questions}
-              header={component.header}
+              header={faqHeader}
               tag={headerTag}
               onInit={(generator: LangGenerator) => {
                 generators = [...generators, generator];
@@ -90,28 +92,32 @@
               <Tab title="HTML">
                 {@const htmlCode = generators[i].html(
                   className,
-                  component.header,
-                  "h2",
+                  faqHeader,
+                  String(headerTag),
                   questions,
                 )}
+                <CopyButton text={htmlCode} />
                 <Highlight language={js} code={htmlCode} />
               </Tab>
             {/if}
             {#if generators[i].css}
               <Tab title="CSS">
                 {@const cssCode = generators[i].css(className)}
+                <CopyButton text={cssCode} />
                 <Highlight language={css} code={cssCode} />
               </Tab>
             {/if}
             {#if generators[i].js}
               <Tab title="JavaScript">
                 {@const jsCode = generators[i].js(className)}
+                <CopyButton text={jsCode} />
                 <Highlight language={js} code={jsCode} />
               </Tab>
             {/if}
             {#if generators[i].php}
               <Tab title="PHP">
                 {@const phpCode = generators[i].php(className)}
+                <CopyButton text={phpCode} />
                 <Highlight language={js} code={phpCode} />
               </Tab>
             {/if}
