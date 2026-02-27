@@ -1,5 +1,11 @@
 
-const css = (className = "faq-item") => `
+export const css = (className: string): string => `
+  .${className}-items {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
   .${className} {
     border-radius: 20px;
     border: solid 1px #e9e9e9;

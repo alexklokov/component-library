@@ -1,17 +1,22 @@
 <script lang="ts">
   import FaqItem from "./FaqItem.svelte";
-  import EditButton from "../../editButton/EditButton.svelte";
-  import Form from "../../../pages/faq/Form.svelte";
   import { type FaqComponentProps } from "../../../interfaces/Faq";
+  import { js } from "./js";
+  import { css } from "./css";
+  import { html } from "./html";
+  import { onMount } from "svelte";
 
-  let { onEdit, questions }: FaqComponentProps = $props();
+  let { questions, onInit }: FaqComponentProps = $props();
+
+  onMount(() => {
+    onInit({
+      css,
+      js,
+      html,
+    });
+  });
 </script>
 
-<EditButton
-  onclick={(_: Event) => {
-    onEdit(Form);
-  }}
-/>
 <div class="faq">
   {#if questions && questions.length > 0}
     {#each questions as q}
@@ -27,5 +32,6 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+    position: relative;
   }
 </style>

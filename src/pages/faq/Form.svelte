@@ -1,11 +1,11 @@
 <script lang="ts">
-  import { onMount } from "svelte";
-  import { newQuestion } from "../../interfaces/Faq";
   import { type Question } from "../../interfaces/Faq";
 
   interface Props {
-    initQuestions?: Question[];
-    onSave?: (data: any) => void;
+    questions?: Question[];
+    onAddQuestion: (arg0: Question) => void;
+    onChangeQuestion: (arg0: Question, arg1: number) => void;
+    onRemoveQuestion: (arg0: number) => void;
   }
 
   const EDIT_STATES = {
@@ -14,27 +14,20 @@
   };
 
   interface State {
-    questions: Question[];
     question: string;
     answer: string;
     editState?: (typeof EDIT_STATES)[keyof typeof EDIT_STATES];
     editQuestionIndex?: number;
   }
 
-  let { initQuestions = [], onSave }: Props = $props();
+  let { questions, onAddQuestion, onChangeQuestion, onRemoveQuestion }: Props =
+    $props();
 
-  let { questions, question, answer, editState, editQuestionIndex }: State =
-    $state({
-      questions: [],
-      question: "",
-      answer: "",
-      editState: EDIT_STATES.ADDING,
-      editQuestionIndex: -1,
-    });
-
-  onMount(() => {
-    console.log(initQuestions);
-    questions = initQuestions;
+  let { question, answer, editState, editQuestionIndex }: State = $state({
+    question: "",
+    answer: "",
+    editState: EDIT_STATES.ADDING,
+    editQuestionIndex: -1,
   });
 
   const addQuestion = () => {
@@ -43,15 +36,16 @@
       return;
     }
 
-    const newQ = newQuestion(question, answer);
+    const newQ = { question, answer };
 
-    questions = [...questions, newQ];
     question = "";
     answer = "";
+
+    onAddQuestion(newQ);
   };
 
   const removeQuestion = (index: number) => {
-    questions = questions.filter((_, i) => i !== index);
+    onRemoveQuestion(index);
   };
 
   const changeQuestion = (index: number) => {
@@ -68,7 +62,8 @@
       return;
     }
 
-    questions[editQuestionIndex] = { question, answer };
+    onChangeQuestion({ question, answer }, editQuestionIndex);
+
     question = "";
     answer = "";
     editState = EDIT_STATES.ADDING;
@@ -89,20 +84,12 @@
         Изменить вопрос
       </div>
     {/if}
-    <div
-      class="button button--success"
-      onclick={() => {
-        onSave?.(questions);
-      }}
-    >
-      Сохранить
-    </div>
   </div>
 
   <div class="flex flex-column gap-10">
     {#each questions as q, i}
       <div class="faq-item">
-        <h3>{q.question}</h3>
+        <h4>{q.question}</h4>
         <p>{q.answer}</p>
         <div class="faq-item__controls">
           <div class="button button--danger" onclick={() => removeQuestion(i)}>
@@ -120,7 +107,6 @@
 <style scoped lang="scss">
   .faq-item {
     border-bottom: solid 1px #ccc;
-    padding: 20px 0;
     width: 100%;
     position: relative;
 

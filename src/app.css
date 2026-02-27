@@ -47,6 +47,7 @@ body {
   border: solid 1px #ccc;
   cursor: pointer;
   text-align: center;
+  transition-duration: .3s;
 }
 
 .button--success {
@@ -124,4 +125,27 @@ body {
 
 .section {
   margin: 60px 0;
+}
+
+.slide-buttons {
+  position: absolute;
+  visibility: hidden;
+  opacity: 0;
+  top: -20px;
+  right: 10px;
+  transition-duration: .3s;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+*:hover>.slide-buttons {
+  top: 10px;
+  opacity: 1;
+  visibility: visible;
+}
+
+
+main {
+  padding: 40px 0;
 }

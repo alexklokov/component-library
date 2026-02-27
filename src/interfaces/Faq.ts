@@ -1,5 +1,3 @@
-import type { Component } from "svelte"
-
 export interface Question {
   question: string,
   answer: string
@@ -13,9 +11,22 @@ export const newQuestion = (question: string, answer: string): Question => {
   }
 }
 
+// Словарь
+// Ключ - название языка
+// Значение - функция, которая принимает className и возвращает код относительно className
+export type LangConfig = { [key: string]: (arg0: string) => string }
+
+export type LangGenerator = {
+  css?: (className: string) => string,
+  js?: (className: string) => string,
+  html?: (className: string, questions: Question[]) => string,
+  php?: (className: string) => string
+}
 
 export interface FaqComponentProps {
   questions?: Question[],
-  onEdit: (arg0: Component) => void
+  onInit: (
+    arg0: LangGenerator,
+  ) => void
 }
 

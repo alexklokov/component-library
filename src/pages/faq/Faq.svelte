@@ -1,66 +1,101 @@
 <script lang="ts">
-  import type { Component } from "svelte";
   import Faq1 from "../../components/faq/faq_1/Faq.svelte";
   import Faq2 from "../../components/faq/faq_2/Faq.svelte";
   import Faq3 from "../../components/faq/faq_3/Faq.svelte";
   import Faq4 from "../../components/faq/faq_4/Faq.svelte";
+  import Tab from "../../components/tabs/tabs_1/Tab.svelte";
+  import Tabs from "../../components/tabs/tabs_1/Tabs.svelte";
+  import { Highlight } from "svelte-highlight";
+  import css from "svelte-highlight/languages/css";
+  import js from "svelte-highlight/languages/javascript";
+  import { github } from "svelte-highlight/styles";
 
-  import Sidebar from "../../components/sidebar/Sidebar.svelte";
-  import { type Question } from "../../interfaces/Faq";
+  import {
+    newQuestion,
+    type LangGenerator,
+    type Question,
+  } from "../../interfaces/Faq";
+  import Form from "./Form.svelte";
 
-  interface State {
-    EditForm: Component | null;
-    showSidebar: boolean;
-    componentIdx: number;
-  }
+  let questions = $state<Question[]>([newQuestion("Вопрос", "Ответ")]);
+  let className = $state<string>("faq");
+  let generators = $state<LangGenerator[]>([]);
 
-  let { EditForm, showSidebar, componentIdx }: State = $state({
-    EditForm: null,
-    showSidebar: false,
-    componentIdx: -1,
-  });
-
-  let componentsQuestions = $state([]);
   const components = [Faq1, Faq2, Faq3, Faq4];
+
+  const onAddQuestion = (question: Question) => {
+    questions = [...questions, question];
+  };
+  const onRemoveQuestion = (idx: number) => {
+    questions = questions.filter((_, i) => i !== idx);
+  };
+  const onChangeQuestion = (question: Question, idx: number) => {
+    questions[idx] = question;
+  };
 </script>
 
-<div class="container">
-  <Sidebar
-    show={showSidebar}
-    toggle={(state: boolean) => {
-      showSidebar = state;
-    }}
-  >
-    {#if EditForm && componentIdx !== -1}
-      {#key componentIdx}
-        <EditForm
-          initQuestions={componentsQuestions[componentIdx]}
-          onSave={(questions: Question[]) => {
-            componentsQuestions[componentIdx] = questions;
-            componentIdx = -1;
-            showSidebar = false;
-          }}
-        />
-      {/key}
-    {:else}
-      No form
-    {/if}
-  </Sidebar>
+<svelte:head>
+  {@html github}
+</svelte:head>
 
-  {#each components as ComponentItem, i}
-    <div class="section">
-      <ComponentItem
-        questions={componentsQuestions[i]}
-        onEdit={(form: Component) => {
-          console.log(form, i, componentsQuestions[i]);
-          EditForm = form;
-          showSidebar = true;
-          componentIdx = i;
-        }}
-      />
+<div class="container">
+  <div class="form-container">
+    <div class="form-group">
+      <input type="text" placeholder="CSS класс" bind:value={className} />
     </div>
-  {/each}
+  </div>
+
+  <div class="form-container">
+    <h3>Новый вопрос</h3>
+    <Form {questions} {onAddQuestion} {onRemoveQuestion} {onChangeQuestion} />
+  </div>
+  <div class="flex flex-column g-40">
+    {#each components as ComponentItem, i}
+      <div class="section">
+        <Tabs>
+          <Tab title="Внешний вид">
+            <ComponentItem
+              {questions}
+              onInit={(generator) => {
+                generators = [...generators, generator];
+              }}
+            />
+          </Tab>
+          {#if generators[i]}
+            {#if generators[i].html}
+              <Tab title="HTML">
+                {@const htmlCode = generators[i].html(className, questions)}
+                <Highlight language={js} code={htmlCode} />
+              </Tab>
+            {/if}
+            {#if generators[i].css}
+              <Tab title="CSS">
+                {@const cssCode = generators[i].css(className)}
+                <Highlight language={css} code={cssCode} />
+              </Tab>
+            {/if}
+            {#if generators[i].js}
+              <Tab title="JavaScript">
+                {@const jsCode = generators[i].js(className)}
+                <Highlight language={js} code={jsCode} />
+              </Tab>
+            {/if}
+            {#if generators[i].php}
+              <Tab title="PHP">
+                {@const phpCode = generators[i].php(className)}
+                <Highlight language={js} code={phpCode} />
+              </Tab>
+            {/if}
+          {/if}
+        </Tabs>
+      </div>
+    {/each}
+  </div>
 </div>
 
 <style>
+  .form-container {
+    max-width: 640px;
+    margin: 0 auto;
+  }
 </style>

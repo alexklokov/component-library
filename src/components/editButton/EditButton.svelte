@@ -36,5 +36,9 @@
     justify-content: center;
     box-shadow: 0 0 5px #ccc;
     cursor: pointer;
+
+    svg {
+      width: 100%;
+    }
   }
 </style>
