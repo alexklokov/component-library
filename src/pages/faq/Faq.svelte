@@ -4,25 +4,30 @@
   import Faq3 from "../../components/faq/faq_3/Faq.svelte";
   import Tab from "../../components/tabs/tabs_1/Tab.svelte";
   import Tabs from "../../components/tabs/tabs_1/Tabs.svelte";
-  import { Highlight } from "svelte-highlight";
+  import { Highlight, HighlightAuto } from "svelte-highlight";
   import css from "svelte-highlight/languages/css";
   import js from "svelte-highlight/languages/javascript";
-  import { github } from "svelte-highlight/styles";
+  import { atomOneDark } from "svelte-highlight/styles";
 
   import {
-    HeaderTags,
-    type HeaderTag,
+    type FaqSettings,
     type LangGenerator,
     type Question,
   } from "../../interfaces/Faq";
   import Form from "./Form.svelte";
   import CopyButton from "../../components/copyButton/CopyButton.svelte";
+  import Settings from "./Settings.svelte";
 
   let questions = $state<Question[]>([{ question: "Вопрос", answer: "Ответ" }]);
-  let className = $state<string>("faq");
-  let generators = $state<LangGenerator[]>([]);
-  let faqHeader = $state<string>("Вопросы и ответы");
-  let headerTag = $state<HeaderTag>("h2");
+  let generators = $state<LangGenerator[][]>([]);
+
+  let settings = $state<FaqSettings>({
+    className: "faq",
+    faqHeader: "Вопросы и ответы",
+    headerTag: "h2",
+    isWrap: false,
+    wrapperClass: "",
+  });
 
   const components = [
     {
@@ -48,28 +53,25 @@
   const onChangeQuestion = (question: Question, idx: number) => {
     questions[idx] = question;
   };
+
+  const updateSettings = (newSettings: Partial<FaqSettings>) => {
+    settings = { ...settings, ...newSettings };
+  };
 </script>
 
 <svelte:head>
-  {@html github}
+  {@html atomOneDark}
 </svelte:head>
 
 <div class="container">
   <a href="/">Главная</a>
+
   <div class="form-container">
-    <div class="form-group">
-      <input type="text" placeholder="Заголовок" bind:value={faqHeader} />
-      <select placeholder="Тег заголовка" bind:value={headerTag}>
-        {#each HeaderTags as tag}
-          <option value={tag}>{tag}</option>
-        {/each}
-      </select>
-      <input type="text" placeholder="CSS класс" bind:value={className} />
-    </div>
+    <Settings {settings} onChange={updateSettings} />
   </div>
 
   <div class="form-container">
-    <h3>Новый вопрос</h3>
+    <h3>Добавить вопрос</h3>
     <Form {questions} {onAddQuestion} {onRemoveQuestion} {onChangeQuestion} />
   </div>
   <div class="flex flex-column g-40">
@@ -80,47 +82,21 @@
           <Tab title="Внешний вид">
             <component.component
               {questions}
-              header={faqHeader}
-              tag={headerTag}
-              onInit={(generator: LangGenerator) => {
-                generators = [...generators, generator];
+              header={settings.faqHeader}
+              tag={settings.headerTag}
+              onInit={(newGenerators: LangGenerator[]) => {
+                generators = [...generators, newGenerators];
               }}
             />
           </Tab>
           {#if generators[i]}
-            {#if generators[i].html}
-              <Tab title="HTML">
-                {@const htmlCode = generators[i].html(
-                  className,
-                  faqHeader,
-                  String(headerTag),
-                  questions,
-                )}
-                <CopyButton text={htmlCode} />
-                <Highlight language={js} code={htmlCode} />
+            {#each generators[i] as g}
+              <Tab title={g.title ?? g.lang}>
+                {@const code = g.generator(settings, questions)}
+                <CopyButton text={code} />
+                <HighlightAuto languageNames={[g.lang]} code={code} />
               </Tab>
-            {/if}
-            {#if generators[i].css}
-              <Tab title="CSS">
-                {@const cssCode = generators[i].css(className)}
-                <CopyButton text={cssCode} />
-                <Highlight language={css} code={cssCode} />
-              </Tab>
-            {/if}
-            {#if generators[i].js}
-              <Tab title="JavaScript">
-                {@const jsCode = generators[i].js(className)}
-                <CopyButton text={jsCode} />
-                <Highlight language={js} code={jsCode} />
-              </Tab>
-            {/if}
-            {#if generators[i].php}
-              <Tab title="PHP">
-                {@const phpCode = generators[i].php(className)}
-                <CopyButton text={phpCode} />
-                <Highlight language={js} code={phpCode} />
-              </Tab>
-            {/if}
+            {/each}
           {/if}
         </Tabs>
       </div>

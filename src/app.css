@@ -31,13 +31,14 @@ a {
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 15px;
 }
 
 .form-group input[type="text"],
 .form-group input[type="tel"],
 .form-group input[type="email"],
 .form-group input[type="number"],
+.form-group select,
 .form-group textarea {
   padding: 10px 20px;
   border: solid 1px #ccc;
@@ -47,6 +48,9 @@ a {
 }
 
 .button {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
   display: block;
   width: max-content;
   border-radius: 5px;
@@ -58,6 +62,7 @@ a {
   transition-duration: .3s;
   text-decoration: none;
   color: #000;
+  font-size: inherit;
 }
 
 
@@ -134,6 +139,10 @@ a {
   flex-direction: row-reverse;
 }
 
+.items-center {
+  align-items: center;
+}
+
 .section {
   margin: 60px 0;
 }
@@ -159,4 +168,25 @@ a {
 
 main {
   padding: 40px 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+label {
+  font-weight: 600;
+}
+
+.input {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  position: relative;
+  padding-top: 5px;
+}
+
+.input input {
+  flex: 1;
 }

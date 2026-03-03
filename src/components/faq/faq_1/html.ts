@@ -1,9 +1,11 @@
-import { type Question } from '../../../interfaces/Faq'
+import { FaqSettings, type Question } from '../../../interfaces/Faq'
 
-export const html = (className: string, header: string, headerTag: string, questions: Question[]): string => {
+export const html = (settings: FaqSettings, questions: Question[]): string => {
+
+  const { className, headerTag, faqHeader, isWrap, wrapperClass } = settings
 
   let result = `<div class="${className}-items" itemscope itemtype="https://schema.org/FAQPage">
-  <${headerTag} class="${className}__header">${header}</${headerTag}>`
+  <${headerTag} class="${className}__header">${faqHeader}</${headerTag}>`
 
   const items = questions.map(question => {
     return `

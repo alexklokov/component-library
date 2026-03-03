@@ -14,12 +14,22 @@
   }: FaqComponentProps = $props();
 
   onMount(() => {
-    console.log(header);
-    onInit({
-      css,
-      js,
-      html,
-    });
+    onInit(
+[
+        {
+          lang: "js",
+          generator: js
+        },
+        {
+          lang: "css",
+          generator: css,
+        },
+        {
+          lang: "html",
+          generator: html
+        }
+      ]
+    );
   });
 </script>
 

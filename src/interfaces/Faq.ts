@@ -1,4 +1,4 @@
-export interface Question {
+export type Question = {
   question: string,
   answer: string
 }
@@ -20,18 +20,26 @@ export const HeaderTags = ["h1", "h2", "h3", "h4", "h5", "h6", "div", "p"] as co
 export type HeaderTag = (typeof HeaderTags)[keyof typeof HeaderTags]
 
 export type LangGenerator = {
-  css?: (className: string) => string,
-  js?: (className: string) => string,
-  html?: (className: string, header: string, headerTag: string, questions: Question[]) => string,
-  php?: (className: string) => string
+  title?: string,
+  lang: string,
+  generator: (arg0: FaqSettings, arg1: Question[]) => string,
 }
+
+export type FaqSettings = {
+  className: string;
+  faqHeader: string;
+  headerTag: HeaderTag;
+  isWrap: boolean;
+  wrapperClass: string;
+};
+
 
 export interface FaqComponentProps {
   header?: string,
   tag?: HeaderTag,
   questions?: Question[],
   onInit: (
-    arg0: LangGenerator,
+    arg0: LangGenerator[],
   ) => void
 }
 

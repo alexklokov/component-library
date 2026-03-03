@@ -1,24 +1,34 @@
+import { FaqSettings } from "../../../interfaces/Faq"
 
-export const css = (className: string): string => `
-  .${className}-items {
+export const css = (settings: FaqSettings): string => {
+  let {className, isWrap, wrapperClass } = settings
+
+  if (isWrap && wrapperClass.trim()) {
+    wrapperClass = `.${wrapperClass} `
+  } else {
+    wrapperClass = ''
+  }
+   
+  return `
+  ${wrapperClass}.${className}-items {
     display: flex;
     flex-direction: column;
     gap: 20px;
   }
 
-  .${className}__header {
+  ${wrapperClass}.${className}__header {
     font-size: 32px;
     margin-bottom: 30px;
     margin-top: 0;
   }
 
-  .${className} {
+  ${wrapperClass}.${className} {
     border-radius: 20px;
     border: solid 1px #e9e9e9;
     overflow: hidden;
   }
 
-  .${className}__title {
+  ${wrapperClass}.${className}__title {
     min-height: 70px;
     padding: 10px 20px;
     display: flex;
@@ -29,7 +39,7 @@ export const css = (className: string): string => `
     cursor: pointer;
   }
 
-   .${className}__title::after {
+   ${wrapperClass}.${className}__title::after {
     content: "\\002B";
     display: flex;
     flex: none;
@@ -47,19 +57,20 @@ export const css = (className: string): string => `
     line-height: 1;
   }
 
-  .${className}__answer {
+  ${wrapperClass}.${className}__answer {
     height: 0;
     transition-duration: 0.2s;
     overflow: hidden;
   }
 
-  .${className}__text {
+  ${wrapperClass}.${className}__text {
     padding: 20px;
   }
 
-  .${className}.opened .${className}__title::after {
+  ${wrapperClass}.${className}.opened .${className}__title::after {
     content: "\\2212";
   }
 `
+}
 
 export default css

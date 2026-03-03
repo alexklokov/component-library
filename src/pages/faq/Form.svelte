@@ -76,13 +76,13 @@
   <textarea placeholder="Ответ" bind:value={answer}></textarea>
   <div class="flex g-10 justify-center">
     {#if editState === EDIT_STATES.ADDING}
-      <div class="button button--primary" onclick={addQuestion}>
+      <button class="button button--primary" onclick={addQuestion}>
         Добавить вопрос
-      </div>
+      </button>
     {:else if editState === EDIT_STATES.CHANGING}
-      <div class="button button--warning" onclick={saveChangedQuestion}>
+      <button class="button button--warning" onclick={saveChangedQuestion}>
         Изменить вопрос
-      </div>
+      </button>
     {/if}
   </div>
 
@@ -92,12 +92,18 @@
         <h4>{q.question}</h4>
         <p>{q.answer}</p>
         <div class="faq-item__controls">
-          <div class="button button--danger" onclick={() => removeQuestion(i)}>
+          <button
+            class="button button--danger"
+            onclick={() => removeQuestion(i)}
+          >
             Удалить
-          </div>
-          <div class="button button--warning" onclick={() => changeQuestion(i)}>
+          </button>
+          <button
+            class="button button--warning"
+            onclick={() => changeQuestion(i)}
+          >
             Изменить
-          </div>
+          </button>
         </div>
       </div>
     {/each}
@@ -110,16 +116,20 @@
     width: 100%;
     position: relative;
 
+    h4, p {
+      margin: 10px 0;
+    }
+
     &__controls {
       position: absolute;
-      top: 20px;
+      top: 0px;
       right: -100px;
       opacity: 0;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-direction: column;
-      gap: 10px;
+      gap: 5px;
       transition-duration: 0.3s;
 
       .button {
