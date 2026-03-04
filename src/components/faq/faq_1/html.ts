@@ -23,5 +23,9 @@ export const html = (settings: FaqSettings, questions: Question[]): string => {
 
   result += items.join("") + "\n</div>"
 
+  if (isWrap && wrapperClass.trim()) {
+    result = `<div class="${wrapperClass}">\n${result}\n</div>`
+  }
+
   return result
 }

@@ -44,7 +44,6 @@
     border: solid 1px #e9e9e9;
     overflow: hidden;
     height: max-content;
-    break-inside: avoid;
     display: inline-block;
     width: 100%;
 

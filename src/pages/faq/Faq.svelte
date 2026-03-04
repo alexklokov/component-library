@@ -4,9 +4,7 @@
   import Faq3 from "../../components/faq/faq_3/Faq.svelte";
   import Tab from "../../components/tabs/tabs_1/Tab.svelte";
   import Tabs from "../../components/tabs/tabs_1/Tabs.svelte";
-  import { Highlight, HighlightAuto } from "svelte-highlight";
-  import css from "svelte-highlight/languages/css";
-  import js from "svelte-highlight/languages/javascript";
+  import { HighlightAuto } from "svelte-highlight";
   import { atomOneDark } from "svelte-highlight/styles";
 
   import {
