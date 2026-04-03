@@ -2,6 +2,9 @@
   import Faq1 from "../../components/faq/faq_1/Faq.svelte";
   import Faq2 from "../../components/faq/faq_2/Faq.svelte";
   import Faq3 from "../../components/faq/faq_3/Faq.svelte";
+  import Faq4 from "../../components/faq/faq_4/Faq.svelte";
+  import Faq5 from "../../components/faq/faq_5/Faq.svelte";
+  import Faq6 from "../../components/faq/faq_6/Faq.svelte";
   import Tab from "../../components/tabs/tabs_1/Tab.svelte";
   import Tabs from "../../components/tabs/tabs_1/Tabs.svelte";
   import { HighlightAuto } from "svelte-highlight";
@@ -34,11 +37,23 @@
     },
     {
       component: Faq2,
-      label: "Вопросы и ответы (две колонки)",
+      label: "Вопросы и ответы (автоматически закрываются)",
     },
     {
       component: Faq3,
+      label: "Вопросы и ответы (две колонки)",
+    },
+    {
+      component: Faq4,
+      label: "Вопросы и ответы (две колонки. Автоматически закрываются)",
+    },
+    {
+      component: Faq5,
       label: "Вопросы и ответы (заголовок сбоку)",
+    },
+    {
+      component: Faq5,
+      label: "Вопросы и ответы (заголовок сбоку. Автоматически закрываются)",
     },
   ];
 
@@ -92,7 +107,7 @@
               <Tab title={g.title ?? g.lang}>
                 {@const code = g.generator(settings, questions)}
                 <CopyButton text={code} />
-                <HighlightAuto languageNames={[g.lang]} code={code} />
+                <HighlightAuto languageNames={[g.lang]} {code} />
               </Tab>
             {/each}
           {/if}

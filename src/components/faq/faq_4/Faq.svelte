@@ -13,6 +13,12 @@
     tag = "h2",
   }: FaqComponentProps = $props();
 
+  let questionsOpenStates: boolean[] = $state([]);
+
+  $effect(() => {
+    questionsOpenStates = new Array(questions.length).fill(false);
+  });
+
   onMount(() => {
     onInit(
 [

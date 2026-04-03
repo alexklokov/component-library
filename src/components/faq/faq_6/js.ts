@@ -1,14 +1,14 @@
-import type { FaqSettings } from "../../../interfaces/Faq";
+import { FaqSettings } from "../../../interfaces/Faq";
 
 export const js = (settings: FaqSettings): string => {
-  let { className, isWrap, wrapperClass } = settings
+  let { className, isWrap, wrapperClass } = settings 
 
   if (isWrap && wrapperClass.trim()) {
     wrapperClass = `.${wrapperClass} `
   } else {
     wrapperClass = ''
   }
-
+  
   return `
   document.querySelectorAll('${wrapperClass}.${className}-items').forEach(faqWrapper => {
     faqWrapper.querySelectorAll('.${className}').forEach(faqItem => {

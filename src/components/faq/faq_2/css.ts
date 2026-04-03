@@ -1,14 +1,14 @@
 import { FaqSettings } from "../../../interfaces/Faq"
 
-export const css = (settings:FaqSettings): string => {
-  let { className, wrapperClass, isWrap } = settings
+export const css = (settings: FaqSettings): string => {
+  let {className, isWrap, wrapperClass } = settings
 
   if (isWrap && wrapperClass.trim()) {
     wrapperClass = `.${wrapperClass} `
   } else {
     wrapperClass = ''
   }
-
+   
   return `
   ${wrapperClass}.${className}-items {
     display: flex;
@@ -22,21 +22,10 @@ export const css = (settings:FaqSettings): string => {
     margin-top: 0;
   }
 
-  ${wrapperClass}.${className}__cols {
-    column-count: 2;
-    column-gap: 20px;
-    margin-top: -20px;
-  }
-
   ${wrapperClass}.${className} {
     border-radius: 20px;
     border: solid 1px #e9e9e9;
     overflow: hidden;
-    height: max-content;
-    margin-top: 20px;
-    break-inside: avoid;
-    display: inline-block;
-    width: 100%;
   }
 
   ${wrapperClass}.${className}__title {

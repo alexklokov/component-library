@@ -1,11 +1,14 @@
-import { FaqSettings, type Question } from '../../../interfaces/Faq'
+import type { FaqSettings, Question } from '../../../interfaces/Faq'
 
 export const html = (settings: FaqSettings, questions: Question[]): string => {
 
   const { className, faqHeader, headerTag, isWrap, wrapperClass } = settings
+
+
   let result = `<div class="${className}-items" itemscope itemtype="https://schema.org/FAQPage">
   <${headerTag} class="${className}__header">${faqHeader}</${headerTag}>
-  <div class="${className}__cols">`
+  <div class="${className}__questions">`
+
 
   const items = questions.map(question => {
     return `
@@ -24,6 +27,7 @@ export const html = (settings: FaqSettings, questions: Question[]): string => {
   result += items.join("") + `
   </div>
 </div>`
+
 
   if (isWrap && wrapperClass.trim()) {
     result = `<div class="${wrapperClass}">\n${result}\n</div>`

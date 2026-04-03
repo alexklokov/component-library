@@ -13,23 +13,27 @@
     tag = "h2",
   }: FaqComponentProps = $props();
 
+  let questionsOpenStates = $state([]);
+
+  $effect(() => {
+    questionsOpenStates = new Array(questions.length).fill(false);
+  });
+
   onMount(() => {
-    onInit(
-[
-        {
-          lang: "js",
-          generator: js
-        },
-        {
-          lang: "css",
-          generator: css,
-        },
-        {
-          lang: "html",
-          generator: html
-        }
-      ]
-    );
+    onInit([
+      {
+        lang: "js",
+        generator: js,
+      },
+      {
+        lang: "css",
+        generator: css,
+      },
+      {
+        lang: "html",
+        generator: html,
+      },
+    ]);
   });
 </script>
 
@@ -37,32 +41,39 @@
   <svelte:element this={String(tag)} class="faq__header"
     >{header}</svelte:element
   >
+  {#if questions && questions.length > 0}
+    {#each questions as q, i}
+      <FaqItem
+        title={q.question}
+        text={q.answer}
+        opened={questionsOpenStates[i]}
+        onToggle={(state) => {
+          const newQuestionsOpenStates = questionsOpenStates.map((_, j) => {
+            if (i === j) {
+              return state;
+            }
+            return false;
+          });
 
-  <div class="faq__cols">
-    {#if questions && questions.length > 0}
-      {#each questions as q}
-        <FaqItem title={q.question} text={q.answer} />
-      {/each}
-    {:else}
-      <FaqItem title="Вопрос" text="Ответ" />
-      <FaqItem title="Вопрос" text="Ответ" />
-    {/if}
-  </div>
+          console.log(newQuestionsOpenStates);
+
+          questionsOpenStates = newQuestionsOpenStates;
+        }}
+      />
+    {/each}
+  {/if}
 </div>
 
 <style scoped lang="scss">
   .faq {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
     position: relative;
-
-    &__cols {
-      column-count: 2;
-      column-gap: 20px;
-      margin-top: -20px;
-    }
 
     &__header {
       font-size: 32px;
-      margin-bottom: 30px;
+      margin-bottom: 0;
       margin-top: 0;
     }
   }

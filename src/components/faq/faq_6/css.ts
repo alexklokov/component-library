@@ -12,20 +12,22 @@ export const css = (settings:FaqSettings): string => {
   return `
   ${wrapperClass}.${className}-items {
     display: flex;
-    flex-direction: column;
     gap: 20px;
   }
 
+
   ${wrapperClass}.${className}__header {
     font-size: 32px;
-    margin-bottom: 30px;
+    margin-bottom: 0;
     margin-top: 0;
+    width: calc(33.333% - 10px);
   }
 
-  ${wrapperClass}.${className}__cols {
-    column-count: 2;
-    column-gap: 20px;
-    margin-top: -20px;
+  ${wrapperClass}.${className}__questions {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
   }
 
   ${wrapperClass}.${className} {
@@ -33,8 +35,6 @@ export const css = (settings:FaqSettings): string => {
     border: solid 1px #e9e9e9;
     overflow: hidden;
     height: max-content;
-    margin-top: 20px;
-    break-inside: avoid;
     display: inline-block;
     width: 100%;
   }

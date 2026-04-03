@@ -2,14 +2,13 @@
   import { onMount } from "svelte";
 
   interface Props {
-    opened?: boolean;
-    onToggle: (state: boolean) => void;
     title: string;
     text: string;
   }
 
-  let { title, text, opened = false, onToggle }: Props = $props();
+  let { title, text }: Props = $props();
 
+  let opened: boolean = $state(false);
   let textElement: HTMLElement | null = null;
   let scrollHeight: number = 0;
   let elementHeight: number = $state(0);
@@ -19,12 +18,9 @@
   });
 
   const toggleOpen = () => {
-    onToggle(!opened);
-  };
-
-  $effect(() => {
+    opened = !opened;
     elementHeight = opened ? scrollHeight : 0;
-  });
+  };
 </script>
 
 <div class={["faq-item", { opened }]}>
@@ -47,6 +43,9 @@
     border-radius: 20px;
     border: solid 1px #e9e9e9;
     overflow: hidden;
+    height: max-content;
+    display: inline-block;
+    width: 100%;
 
     &__title {
       min-height: 70px;

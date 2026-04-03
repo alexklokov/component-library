@@ -3,7 +3,7 @@
 
   interface Props {
     opened?: boolean;
-    onToggle: (state: boolean) => void;
+    onToggle: (arg0: boolean) => void;
     title: string;
     text: string;
   }
@@ -19,12 +19,13 @@
   });
 
   const toggleOpen = () => {
-    onToggle(!opened);
+    onToggle(!opened)
   };
 
   $effect(() => {
     elementHeight = opened ? scrollHeight : 0;
-  });
+  })
+  
 </script>
 
 <div class={["faq-item", { opened }]}>
@@ -47,6 +48,11 @@
     border-radius: 20px;
     border: solid 1px #e9e9e9;
     overflow: hidden;
+    height: max-content;
+    margin-top: 20px;
+    break-inside: avoid;
+    display: inline-block;
+    width: 100%;
 
     &__title {
       min-height: 70px;
