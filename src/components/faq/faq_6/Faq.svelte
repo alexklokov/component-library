@@ -1,7 +1,7 @@
 <script lang="ts">
-  import FaqItem from "./FaqItem.svelte";
+  import FaqItem from "../FaqItem.svelte";
   import { type FaqComponentProps } from "../../../interfaces/Faq";
-  import { js } from "./js";
+  import { js } from "../default_one_open_js";
   import { css } from "./css";
   import { html } from "./html";
   import { onMount } from "svelte";
@@ -14,23 +14,43 @@
   }: FaqComponentProps = $props();
 
   onMount(() => {
-    console.log(header);
-    onInit(
-      [
-        {
-          lang: "js",
-          generator: js
-        },
-        {
-          lang: "css",
-          generator: css,
-        },
-        {
-          lang: "html",
-          generator: html
-        }
-      ]
-    );
+    onInit([
+      {
+        lang: "js",
+        generator: js,
+      },
+      {
+        lang: "css",
+        generator: css,
+      },
+      {
+        lang: "html",
+        generator: html,
+      },
+    ]);
+  });
+
+  let openedQuestions: boolean[] = $state(
+    new Array(questions.length).fill(false),
+  );
+
+  const toggleQuestion = (i: number) => {
+    if (openedQuestions[i]) {
+      openedQuestions[i] = false;
+    } else {
+      openedQuestions.forEach((_, j) => {
+        openedQuestions[j] = false;
+      });
+
+      openedQuestions[i] = true;
+    }
+  };
+
+  $effect(() => {
+    while (openedQuestions.length < questions.length) {
+      openedQuestions.push(false);
+    }
+    openedQuestions.length = questions.length;
   });
 </script>
 
@@ -39,13 +59,16 @@
     >{header}</svelte:element
   >
   <div class="faq__questions">
-    {#if questions && questions.length > 0}
-      {#each questions as q}
-        <FaqItem title={q.question} text={q.answer} />
-      {/each}
-    {:else}
-      <FaqItem title="Вопрос" text="Ответ" />
-    {/if}
+    {#each questions as q, i}
+      <FaqItem
+        title={q.question}
+        text={q.answer}
+        opened={openedQuestions[i]}
+        onToggle={() => {
+          toggleQuestion(i);
+        }}
+      />
+    {/each}
   </div>
 </div>
 

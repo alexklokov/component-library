@@ -1,7 +1,7 @@
 <script lang="ts">
-  import FaqItem from "./FaqItem.svelte";
+  import FaqItem from "../FaqItem.svelte";
   import { type FaqComponentProps } from "../../../interfaces/Faq";
-  import { js } from "./js";
+  import { js } from "../default_many_open_js";
   import { css } from "./css";
   import { html } from "./html";
   import { onMount } from "svelte";
@@ -15,22 +15,33 @@
 
   onMount(() => {
     console.log(header);
-    onInit(
-      [
-        {
-          lang: "js",
-          generator: js
-        },
-        {
-          lang: "css",
-          generator: css,
-        },
-        {
-          lang: "html",
-          generator: html
-        }
-      ]
-    );
+    onInit([
+      {
+        lang: "js",
+        generator: js,
+      },
+      {
+        lang: "css",
+        generator: css,
+      },
+      {
+        lang: "html",
+        generator: html,
+      },
+    ]);
+  });
+
+  let openedQuestions: boolean[] = $state([]);
+
+  const toggleQuestion = (i: number) => {
+    openedQuestions[i] = !openedQuestions[i];
+  };
+
+  $effect(() => {
+    while (openedQuestions.length < questions.length) {
+      openedQuestions.push(false);
+    }
+    openedQuestions.length = questions.length;
   });
 </script>
 
@@ -39,13 +50,16 @@
     >{header}</svelte:element
   >
   <div class="faq__questions">
-    {#if questions && questions.length > 0}
-      {#each questions as q}
-        <FaqItem title={q.question} text={q.answer} />
-      {/each}
-    {:else}
-      <FaqItem title="Вопрос" text="Ответ" />
-    {/if}
+    {#each questions as q, i}
+      <FaqItem
+        title={q.question}
+        text={q.answer}
+        opened={openedQuestions[i]}
+        onToggle={() => {
+          toggleQuestion(i);
+        }}
+      />
+    {/each}
   </div>
 </div>
 

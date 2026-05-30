@@ -2,7 +2,7 @@
   import { type Question } from "../../interfaces/Faq";
 
   interface Props {
-    questions?: Question[];
+    questions: Question[];
     onAddQuestion: (arg0: Question) => void;
     onChangeQuestion: (arg0: Question, arg1: number) => void;
     onRemoveQuestion: (arg0: number) => void;
@@ -17,7 +17,7 @@
     question: string;
     answer: string;
     editState?: (typeof EDIT_STATES)[keyof typeof EDIT_STATES];
-    editQuestionIndex?: number;
+    editQuestionIndex: number;
   }
 
   let { questions, onAddQuestion, onChangeQuestion, onRemoveQuestion }: Props =
@@ -90,7 +90,7 @@
     {#each questions as q, i}
       <div class="faq-item">
         <h4>{q.question}</h4>
-        <p>{q.answer}</p>
+        <p>{@html q.answer}</p>
         <div class="faq-item__controls">
           <button
             class="button button--danger"
@@ -116,7 +116,8 @@
     width: 100%;
     position: relative;
 
-    h4, p {
+    h4,
+    p {
       margin: 10px 0;
     }
 

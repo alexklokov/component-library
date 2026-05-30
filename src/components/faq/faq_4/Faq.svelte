@@ -1,7 +1,7 @@
 <script lang="ts">
-  import FaqItem from "./FaqItem.svelte";
+  import FaqItem from "../FaqItem.svelte";
   import { type FaqComponentProps } from "../../../interfaces/Faq";
-  import { js } from "./js";
+  import { js } from "../default_one_open_js";
   import { css } from "./css";
   import { html } from "./html";
   import { onMount } from "svelte";
@@ -13,29 +13,42 @@
     tag = "h2",
   }: FaqComponentProps = $props();
 
-  let questionsOpenStates: boolean[] = $state([]);
-
-  $effect(() => {
-    questionsOpenStates = new Array(questions.length).fill(false);
+  onMount(() => {
+    onInit([
+      {
+        lang: "js",
+        generator: js,
+      },
+      {
+        lang: "css",
+        generator: css,
+      },
+      {
+        lang: "html",
+        generator: html,
+      },
+    ]);
   });
 
-  onMount(() => {
-    onInit(
-[
-        {
-          lang: "js",
-          generator: js
-        },
-        {
-          lang: "css",
-          generator: css,
-        },
-        {
-          lang: "html",
-          generator: html
-        }
-      ]
-    );
+  let openedQuestions: boolean[] = $state([]);
+
+  const toggleQuestion = (i: number) => {
+    if (openedQuestions[i]) {
+      openedQuestions[i] = false;
+    } else {
+      openedQuestions.forEach((_, j) => {
+        openedQuestions[j] = false;
+      });
+
+      openedQuestions[i] = true;
+    }
+  };
+
+  $effect(() => {
+    while (openedQuestions.length < questions.length) {
+      openedQuestions.push(false);
+    }
+    openedQuestions.length = questions.length;
   });
 </script>
 
@@ -45,14 +58,17 @@
   >
 
   <div class="faq__cols">
-    {#if questions && questions.length > 0}
-      {#each questions as q}
-        <FaqItem title={q.question} text={q.answer} />
-      {/each}
-    {:else}
-      <FaqItem title="Вопрос" text="Ответ" />
-      <FaqItem title="Вопрос" text="Ответ" />
-    {/if}
+    {#each questions as q, i}
+      <FaqItem
+        title={q.question}
+        text={q.answer}
+        opened={openedQuestions[i]}
+        additionalClasses={["mb-20"]}
+        onToggle={() => {
+          toggleQuestion(i);
+        }}
+      />
+    {/each}
   </div>
 </div>
 
@@ -61,9 +77,9 @@
     position: relative;
 
     &__cols {
-      column-count: 2;
+      gap: 20px;
       column-gap: 20px;
-      margin-top: -20px;
+      column-count: 2;
     }
 
     &__header {
