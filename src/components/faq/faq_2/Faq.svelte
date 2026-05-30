@@ -1,7 +1,7 @@
 <script lang="ts">
-  import FaqItem from "./FaqItem.svelte";
+  import FaqItem from "../FaqItem.svelte";
   import { type FaqComponentProps } from "../../../interfaces/Faq";
-  import { js } from "./js";
+  import { js } from "../default_one_open_js";
   import { css } from "./css";
   import { html } from "./html";
   import { onMount } from "svelte";
@@ -12,12 +12,6 @@
     header = "Заголовок",
     tag = "h2",
   }: FaqComponentProps = $props();
-
-  let questionsOpenStates = $state([]);
-
-  $effect(() => {
-    questionsOpenStates = new Array(questions.length).fill(false);
-  });
 
   onMount(() => {
     onInit([
@@ -35,33 +29,45 @@
       },
     ]);
   });
+
+  let openedQuestions: boolean[] = $state([]);
+
+  const toggleQuestion = (i: number) => {
+    if (openedQuestions[i]) {
+      openedQuestions[i] = false;
+    } else {
+      openedQuestions.forEach((_, j) => {
+        openedQuestions[j] = false;
+      });
+
+      openedQuestions[i] = true;
+    }
+  };
+
+  $effect(() => {
+    while (openedQuestions.length < questions.length) {
+      openedQuestions.push(false);
+    }
+    openedQuestions.length = questions.length;
+  });
 </script>
 
 <div class="faq">
   <svelte:element this={String(tag)} class="faq__header"
     >{header}</svelte:element
   >
-  {#if questions && questions.length > 0}
+  <div class="faq__questions">
     {#each questions as q, i}
       <FaqItem
         title={q.question}
         text={q.answer}
-        opened={questionsOpenStates[i]}
-        onToggle={(state) => {
-          const newQuestionsOpenStates = questionsOpenStates.map((_, j) => {
-            if (i === j) {
-              return state;
-            }
-            return false;
-          });
-
-          console.log(newQuestionsOpenStates);
-
-          questionsOpenStates = newQuestionsOpenStates;
+        opened={openedQuestions[i]}
+        onToggle={() => {
+          toggleQuestion(i);
         }}
       />
     {/each}
-  {/if}
+  </div>
 </div>
 
 <style scoped lang="scss">
@@ -75,6 +81,12 @@
       font-size: 32px;
       margin-bottom: 0;
       margin-top: 0;
+    }
+
+    &__questions {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
     }
   }
 </style>

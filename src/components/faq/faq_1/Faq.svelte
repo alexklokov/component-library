@@ -1,7 +1,8 @@
 <script lang="ts">
-  import FaqItem from "./FaqItem.svelte";
+  // import FaqItem from "./FaqItem.svelte";
+  import FaqItem from "../FaqItem.svelte";
   import { type FaqComponentProps } from "../../../interfaces/Faq";
-  import { js } from "./js";
+  import { js } from "../default_many_open_js";
   import { css } from "./css";
   import { html } from "./html";
   import { onMount } from "svelte";
@@ -14,23 +15,33 @@
   }: FaqComponentProps = $props();
 
   onMount(() => {
-    console.log(header);
-    onInit(
-      [
-        {
-          lang: "js",
-          generator: js
-        },
-        {
-          lang: "css",
-          generator: css,
-        },
-        {
-          lang: "html",
-          generator: html
-        }
-      ]
-    );
+    onInit([
+      {
+        lang: "js",
+        generator: js,
+      },
+      {
+        lang: "css",
+        generator: css,
+      },
+      {
+        lang: "html",
+        generator: html,
+      },
+    ]);
+  });
+
+  let openedQuestions: boolean[] = $state([]);
+
+  const toggleQuestion = (i: number) => {
+    openedQuestions[i] = !openedQuestions[i];
+  };
+
+  $effect(() => {
+    while (openedQuestions.length < questions.length) {
+      openedQuestions.push(false);
+    }
+    openedQuestions.length = questions.length;
   });
 </script>
 
@@ -38,13 +49,19 @@
   <svelte:element this={String(tag)} class="faq__header"
     >{header}</svelte:element
   >
-  {#if questions && questions.length > 0}
-    {#each questions as q}
-      <FaqItem title={q.question} text={q.answer} />
+
+  <div class="faq__questions">
+    {#each questions as q, i}
+      <FaqItem
+        title={q.question}
+        text={q.answer}
+        opened={openedQuestions[i]}
+        onToggle={() => {
+          toggleQuestion(i);
+        }}
+      />
     {/each}
-  {:else}
-    <FaqItem title="Вопрос" text="Ответ" />
-  {/if}
+  </div>
 </div>
 
 <style scoped lang="scss">
@@ -58,6 +75,12 @@
       font-size: 32px;
       margin-bottom: 0;
       margin-top: 0;
+    }
+
+    &__questions {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
     }
   }
 </style>

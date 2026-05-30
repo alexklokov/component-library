@@ -1,8 +1,12 @@
-export type Question = {
+export interface Question {
   question: string,
   answer: string
 }
 
+
+export interface QuestionWithState extends Question {
+  isOpened: boolean
+}
 
 export const newQuestion = (question: string, answer: string): Question => {
   return {
@@ -37,7 +41,7 @@ export type FaqSettings = {
 export interface FaqComponentProps {
   header?: string,
   tag?: HeaderTag,
-  questions?: Question[],
+  questions: Question[],
   onInit: (
     arg0: LangGenerator[],
   ) => void

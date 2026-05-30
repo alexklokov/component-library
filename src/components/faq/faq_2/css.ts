@@ -1,14 +1,14 @@
-import { FaqSettings } from "../../../interfaces/Faq"
+import { type FaqSettings } from "../../../interfaces/Faq"
 
 export const css = (settings: FaqSettings): string => {
-  let {className, isWrap, wrapperClass } = settings
+  let { className, isWrap, wrapperClass } = settings
 
   if (isWrap && wrapperClass.trim()) {
     wrapperClass = `.${wrapperClass} `
   } else {
     wrapperClass = ''
   }
-   
+
   return `
   ${wrapperClass}.${className}-items {
     display: flex;
@@ -39,6 +39,12 @@ export const css = (settings: FaqSettings): string => {
     cursor: pointer;
   }
 
+  ${wrapperClass}.${className}__questions {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
    ${wrapperClass}.${className}__title::after {
     content: "\\002B";
     display: flex;
@@ -58,17 +64,23 @@ export const css = (settings: FaqSettings): string => {
   }
 
   ${wrapperClass}.${className}__answer {
-    height: 0;
     transition-duration: 0.2s;
     overflow: hidden;
+    display: grid;
+    grid-template-rows: 0fr;
   }
 
   ${wrapperClass}.${className}__text {
     padding: 20px;
+    overflow: hidden;
   }
 
   ${wrapperClass}.${className}.opened .${className}__title::after {
     content: "\\2212";
+  }
+
+  ${wrapperClass}.${className}.opened .${className}__answer {
+    grid-template-rows: 1fr;
   }
 `
 }

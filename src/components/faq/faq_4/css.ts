@@ -1,6 +1,6 @@
-import { FaqSettings } from "../../../interfaces/Faq"
+import { type FaqSettings } from "../../../interfaces/Faq"
 
-export const css = (settings:FaqSettings): string => {
+export const css = (settings: FaqSettings): string => {
   let { className, wrapperClass, isWrap } = settings
 
   if (isWrap && wrapperClass.trim()) {
@@ -23,20 +23,20 @@ export const css = (settings:FaqSettings): string => {
   }
 
   ${wrapperClass}.${className}__cols {
-    column-count: 2;
+    gap: 20px;
     column-gap: 20px;
-    margin-top: -20px;
+    column-count: 2;
   }
 
   ${wrapperClass}.${className} {
     border-radius: 20px;
     border: solid 1px #e9e9e9;
     overflow: hidden;
-    height: max-content;
-    margin-top: 20px;
+    height: auto;
     break-inside: avoid;
     display: inline-block;
     width: 100%;
+    margin-bottom: 20px;
   }
 
   ${wrapperClass}.${className}__title {
@@ -69,19 +69,26 @@ export const css = (settings:FaqSettings): string => {
   }
 
   ${wrapperClass}.${className}__answer {
-    height: 0;
     transition-duration: 0.2s;
     overflow: hidden;
+    display: grid;
+    grid-template-rows: 0fr;
   }
 
   ${wrapperClass}.${className}__text {
     padding: 20px;
+    overflow: hidden;
   }
 
   ${wrapperClass}.${className}.opened .${className}__title::after {
     content: "\\2212";
   }
+
+  ${wrapperClass}.${className}.opened .${className}__answer {
+    grid-template-rows: 1fr;
+  }
 `
 }
 
 export default css
+

@@ -1,6 +1,6 @@
-import { FaqSettings } from "../../../interfaces/Faq"
+import { type FaqSettings } from "../../../interfaces/Faq"
 
-export const css = (settings:FaqSettings): string => {
+export const css = (settings: FaqSettings): string => {
   let { className, wrapperClass, isWrap } = settings
 
   if (isWrap && wrapperClass.trim()) {
@@ -69,17 +69,23 @@ export const css = (settings:FaqSettings): string => {
   }
 
   ${wrapperClass}.${className}__answer {
-    height: 0;
     transition-duration: 0.2s;
     overflow: hidden;
+    display: grid;
+    grid-template-rows: 0fr;
   }
 
   ${wrapperClass}.${className}__text {
     padding: 20px;
+    overflow: hidden;
   }
 
   ${wrapperClass}.${className}.opened .${className}__title::after {
     content: "\\2212";
+  }
+
+  ${wrapperClass}.${className}.opened .${className}__answer {
+    grid-template-rows: 1fr;
   }
 `
 }
