@@ -78,12 +78,9 @@
     }
 
     &__text {
-      padding: 20px;
+      padding: 0 20px;
       overflow: hidden;
-    }
-
-    &.opened .faq-item__answer {
-      grid-template-rows: 1fr;
+      transition-duration: 0.2s;
     }
 
     &.opened .faq-item {
@@ -91,6 +88,14 @@
         &::after {
           content: "\2212";
         }
+      }
+
+      &__answer {
+        grid-template-rows: 1fr;
+      }
+
+      &__text {
+        padding: 20px;
       }
     }
   }

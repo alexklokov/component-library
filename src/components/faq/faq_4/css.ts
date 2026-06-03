@@ -76,8 +76,9 @@ export const css = (settings: FaqSettings): string => {
   }
 
   ${wrapperClass}.${className}__text {
-    padding: 20px;
+    padding: 0 20px;
     overflow: hidden;
+    transition-duration: .2s;
   }
 
   ${wrapperClass}.${className}.opened .${className}__title::after {
@@ -86,6 +87,10 @@ export const css = (settings: FaqSettings): string => {
 
   ${wrapperClass}.${className}.opened .${className}__answer {
     grid-template-rows: 1fr;
+  }
+
+  ${wrapperClass}.${className}.opened .${className}__text {
+    padding: 20px;
   }
 `
 }
