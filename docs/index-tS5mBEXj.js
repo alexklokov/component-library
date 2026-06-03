@@ -73,8 +73,9 @@ var e=Object.create,t=Object.defineProperty,n=Object.getOwnPropertyDescriptor,r=
   }
 
   ${r}.${t}__text {
-    padding: 20px;
+    padding: 0 20px;
     overflow: hidden;
+    transition-duration: 0.2s;
   }
 
   ${r}.${t}.opened .${t}__title::after {
@@ -83,6 +84,10 @@ var e=Object.create,t=Object.defineProperty,n=Object.getOwnPropertyDescriptor,r=
 
   ${r}.${t}.opened .${t}__answer {
     grid-template-rows: 1fr;
+  }
+
+  ${r}.${t}.opened .${t}__text {
+    padding: 20px;
   }
 `},ma=(e,t)=>{let{className:n,headerTag:r,faqHeader:i,isWrap:a,wrapperClass:o}=e,s=`<div class="${n}-items" itemscope itemtype="https://schema.org/FAQPage">
   <${r} class="${n}__header">${i}</${r}>
@@ -177,8 +182,9 @@ var e=Object.create,t=Object.defineProperty,n=Object.getOwnPropertyDescriptor,r=
   }
 
   ${r}.${t}__text {
-    padding: 20px;
+    padding: 0 20px;
     overflow: hidden;
+    transition-duration: .2s;
   }
 
   ${r}.${t}.opened .${t}__title::after {
@@ -187,6 +193,10 @@ var e=Object.create,t=Object.defineProperty,n=Object.getOwnPropertyDescriptor,r=
 
   ${r}.${t}.opened .${t}__answer {
     grid-template-rows: 1fr;
+  }
+
+  ${r}.${t}.opened .${t}__text {
+    padding: 20px;
   }
 `},ya=(e,t)=>{let{className:n,headerTag:r,faqHeader:i,isWrap:a,wrapperClass:o}=e,s=`<div class="${n}-items" itemscope itemtype="https://schema.org/FAQPage">
   <${r} class="${n}__header">${i}</${r}>
@@ -269,8 +279,9 @@ var e=Object.create,t=Object.defineProperty,n=Object.getOwnPropertyDescriptor,r=
   }
 
   ${n}.${t}__text {
-    padding: 20px;
+    padding: 0 20px;
     overflow: hidden;
+    transition-duration: .2s;
   }
 
   ${n}.${t}.opened .${t}__title::after {
@@ -279,6 +290,10 @@ var e=Object.create,t=Object.defineProperty,n=Object.getOwnPropertyDescriptor,r=
 
   ${n}.${t}.opened .${t}__answer {
     grid-template-rows: 1fr;
+  }
+
+  ${n}.${t}.opened .${t}__text {
+    padding: 20px;
   }
 `},Ca=(e,t)=>{let{className:n,faqHeader:r,headerTag:i,isWrap:a,wrapperClass:o}=e,s=`<div class="${n}-items" itemscope itemtype="https://schema.org/FAQPage">
   <${i} class="${n}__header">${r}</${i}>
@@ -361,8 +376,9 @@ var e=Object.create,t=Object.defineProperty,n=Object.getOwnPropertyDescriptor,r=
   }
 
   ${n}.${t}__text {
-    padding: 20px;
+    padding: 0 20px;
     overflow: hidden;
+    transition-duration: .2s;
   }
 
   ${n}.${t}.opened .${t}__title::after {
@@ -371,6 +387,10 @@ var e=Object.create,t=Object.defineProperty,n=Object.getOwnPropertyDescriptor,r=
 
   ${n}.${t}.opened .${t}__answer {
     grid-template-rows: 1fr;
+  }
+
+  ${n}.${t}.opened .${t}__text {
+    padding: 20px;
   }
 `},Da=(e,t)=>{let{className:n,faqHeader:r,headerTag:i,isWrap:a,wrapperClass:o}=e,s=`<div class="${n}-items" itemscope itemtype="https://schema.org/FAQPage">
   <${i} class="${n}__header">${r}</${i}>
@@ -453,8 +473,9 @@ var e=Object.create,t=Object.defineProperty,n=Object.getOwnPropertyDescriptor,r=
   }
 
   ${n}.${t}__text {
-    padding: 20px;
+    padding: 0 20px;
     overflow: hidden;
+    transition-duration: .2s;
   }
 
   ${n}.${t}.opened .${t}__title::after {
@@ -463,6 +484,10 @@ var e=Object.create,t=Object.defineProperty,n=Object.getOwnPropertyDescriptor,r=
 
   ${n}.${t}.opened .${t}__answer {
     grid-template-rows: 1fr;
+  }
+
+  ${n}.${t}.opened .${t}__text {
+    padding: 20px;
   }
 `},ja=(e,t)=>{let{className:n,faqHeader:r,headerTag:i,isWrap:a,wrapperClass:o}=e,s=`<div class="${n}-items" itemscope itemtype="https://schema.org/FAQPage">
   <${i} class="${n}__header">${r}</${i}>
@@ -545,8 +570,9 @@ var e=Object.create,t=Object.defineProperty,n=Object.getOwnPropertyDescriptor,r=
   }
 
   ${n}.${t}__text {
-    padding: 20px;
+    padding: 0 20px;
     overflow: hidden;
+    transition-duration: .2s;
   }
 
   ${n}.${t}.opened .${t}__title::after {
@@ -555,6 +581,10 @@ var e=Object.create,t=Object.defineProperty,n=Object.getOwnPropertyDescriptor,r=
 
   ${n}.${t}.opened .${t}__answer {
     grid-template-rows: 1fr;
+  }
+
+  ${n}.${t}.opened .${t}__text {
+    padding: 20px;
   }
 `},Fa=(e,t)=>{let{className:n,faqHeader:r,headerTag:i,isWrap:a,wrapperClass:o}=e,s=`<div class="${n}-items" itemscope itemtype="https://schema.org/FAQPage">
   <${i} class="${n}__header">${r}</${i}>
