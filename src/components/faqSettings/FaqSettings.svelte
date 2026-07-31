@@ -19,7 +19,6 @@
 
 <div class="form-group">
   <div class="input">
-    <label for="block-header">Заголовок блока: </label>
     <input
       id="block-header"
       type="text"
@@ -32,7 +31,6 @@
   </div>
 
   <div class="input">
-    <label for="block-tag">Тег заголовка: </label>
     <select
       id="block-tag"
       placeholder="Тег заголовка"
@@ -89,8 +87,15 @@
 <style lang="scss" scoped>
   .form-group {
     .input {
-      display: grid;
-      grid-template-columns: 200px auto;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+        gap: 3px;
+
+        input {
+            width: 100%;
+        }
     }
   }
 </style>
